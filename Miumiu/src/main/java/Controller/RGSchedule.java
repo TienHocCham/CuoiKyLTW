@@ -14,19 +14,23 @@ import Dao.MonhocDAO;
 import Dao.PhongDAO;
 import Dao.ThuDAO;
 import Dao.TietDAO;
+import Dao.TkbDAO;
 import Dao.TuanDAO;
 import Model.GiangVien;
+import Model.Mon;
+import Model.Phong;
+import Model.TKB;
 
 /**
- * Servlet implementation class ProductServlet
+ * Servlet implementation class RGSchedule
  */
-public class ProductServlet extends HttpServlet {
+public class RGSchedule extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ProductServlet() {
+    public RGSchedule() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -35,24 +39,19 @@ public class ProductServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		GiangVienDAO dao = new GiangVienDAO();
-		PhongDAO daop = new PhongDAO();
-		MonhocDAO daom = new MonhocDAO();
-		LopDAO daol = new LopDAO();
-		ThuDAO daoth = new ThuDAO();
-		TuanDAO daot = new TuanDAO();
-		TietDAO daott = new TietDAO();
-			request.setAttribute("List_TH", daoth.SelectAll());
-			request.setAttribute("List_T", daot.SelectAll());
-			request.setAttribute("List_GV", dao.SelectAll());
-			request.setAttribute("List_P", daop.SelectAll());
-			request.setAttribute("List_M", daom.SelectAll());
-			request.setAttribute("List_L", daol.SelectAll());
-			request.setAttribute("List_TT", daott.SelectAll());
-			request.getRequestDispatcher("Fix.jsp").forward(request, response);
-		
+		TkbDAO dao_tkb = new TkbDAO();
+		ArrayList<Phong> phongList = null;
+		ArrayList<Mon> monList = null;
+		ArrayList<GiangVien> gvList = null;
+		ArrayList<TKB> tkbList = null;
+		phongList = PhongDAO.GetInstance().SelectAll();
+		monList = MonhocDAO.GetInstance().SelectAll();
+		tkbList = TkbDAO.GetInstance().SelectAll();
+		request.setAttribute("list_p", phongList);
+		request.setAttribute("List_tkb", tkbList);
+		request.setAttribute("list_m", monList);
+		request.setAttribute("list_gv", gvList);
+		request.getRequestDispatcher("tkb.jsp").forward(request, response);
 	}
 
 	/**

@@ -16,24 +16,22 @@
                 <div class="overlap-group">
                     <img class="rectangle" src="img/rectangle-1.png" />
                     <img class="line" src="img/line.png" />
-                    <button type="button" href="#" class="dangkytkb btn">
+                    <button type="button" onclick="window.location.href='QLMonSVL'" class="dangkytkb btn">
                        <img class="image" src="img/image-3.png" />
                    </button>
-                    <button type="button" href="#" class="thongtindangnhap btn">
+                    <button type="button" onclick="window.location.href='GiangVienServlet'" class="thongtindangnhap btn">
                       <img class="img" src="img/image-4.png" />
                    </button>
-                   <input type="submit"
-						class="btn btn-danger position-absolute top-50 start-50 translate-middle"
-						value="Update">
-                    
-                   </submit>
+                   <button type="button" onclick="window.location.href='RGSchedule'" class="xemtkb btn">
+                    <img class="image-2" src="img/image-5.png" />
+                   </button>
                     <header class="header">
                         <p class="UNVIERSITY-OF">UNVIERSITY OF SCIENECE AND EDUCATION<br />The University of Da Nang</p>
                         <img class="image-3" src="img/image-1.png" />
                     </header>
-                    <div class="register-schedule">Register<br />Schedule</div>
-                    <div class="consider-schedule">Consider <br />Schedule</div>
-                    <div class="teacher-information">Teacher <br />Information</div>
+                    <div class="register-schedule">Subject<br />Manage</div>
+                    <div class="consider-schedule">Consider<br />Schedule</div>
+                    <div class="teacher-information">Teacher<br />Information</div>
                 </div>
             </div>
         </div>

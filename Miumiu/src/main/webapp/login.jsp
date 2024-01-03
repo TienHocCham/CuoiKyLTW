@@ -7,6 +7,8 @@
 
 <title>Login</title>
     <!--Google font-->
+    <link rel="stylesheet"
+	href="fonts/material-icon/css/material-design-iconic-font.min.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway:500" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet" type="text/css">
     <!--Fontawesome-->
@@ -16,6 +18,7 @@
     <!--STYLE-->
     <link rel="stylesheet" href="css/login.css">
 </head>
+	<input type="hidden" id="status" value="<%= request.getAttribute("status") %>">
 <body>
 <div class="main">
 
@@ -61,9 +64,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js"></script>
-    <script src="vendor/jquery/jquery.min.js"></script>
+	<!-- JS -->
+	<script src="vendor/jquery/jquery.min.js"></script>
 	<script src="js/main.js"></script>
 	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<link rel="stylesheet" href="alert/dist/sweetalest.css">
 	<script type="text/javascript">
 		var status = document.getElementById("status").value;
 		if(status == "failed"){

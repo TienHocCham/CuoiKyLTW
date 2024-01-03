@@ -1,26 +1,26 @@
 package Controller;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import Dao.GiangVienDAO;
+import Dao.MonhocDAO;
 import Model.GiangVien;
+import Model.Mon;
 
 /**
- * Servlet implementation class UpdateGiangVien
+ * Servlet implementation class UpdateMon
  */
-@WebServlet("/UpdateGiangVien")
-public class UpdateGiangVien extends HttpServlet {
+public class UpdateMon extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public UpdateGiangVien() {
+    public UpdateMon() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,32 +29,29 @@ public class UpdateGiangVien extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		/*String id=request.getParameter("id");
-		if(id != null) {
-			GiangVien gv = new GiangVien();
-			GiangVienDAO dao = new GiangVienDAO();
-			gv = dao.SelectByID(id);
-			System.out.println(gv.toString());
-			request.setAttribute("data", gv);
-			request.getRequestDispatcher("listGV.jsp").forward(request, response);
-		}*/
-		 
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String id = request.getParameter("idGiangVien");
-		String ten=request.getParameter("TenGV");
-		String khoa =request.getParameter("idKhoaQL");
-		GiangVien gv = new GiangVien();
-		gv.setIdGiangVien(id);
-        gv.setTenGV(ten);
-        gv.setIdKhoaQL(khoa);
+		String id = request.getParameter("idMon");
+		String ten=request.getParameter("TenMon");
+		String khoa =request.getParameter("idKhoahoc");
+		String tinchiStr = request.getParameter("TinChi");
+		int tinchi = Integer.parseInt(tinchiStr);
+		String khoaql = request.getParameter("idkhoaql");
+		Mon mon = new Mon();
+		mon.setIdMonHoc(id);
+        mon.setTenMonHoc(ten);
+        mon.setIdKhoaHoc(khoa);
+        mon.setTinchi(tinchi);
+        mon.setIdKhoaQL(khoaql);
         System.out.println("id = " +id);
-        GiangVienDAO.GetInstance().Update(gv);
-		response.sendRedirect("GiangVienServlet");
+        MonhocDAO.GetInstance().Update(mon);
+		response.sendRedirect("QLMonSVL");
 	}
 
 }

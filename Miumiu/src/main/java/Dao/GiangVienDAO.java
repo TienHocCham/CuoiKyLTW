@@ -23,7 +23,7 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 			
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "INSERT INTO GiangVien(IDGiangVien, IDKhoaQL, TenGiangVien)" + 
+			String sql = "INSERT INTO GiangVien(IDGiangvien, IDKhoaql, TenGiangvien)" + 
 			"VALUES("+ t.getIdGiangVien()+", "+ t.getIdKhoaQL()+", "+ t.getTenGV()+", "+ ")";
 			
 			EU = st.executeUpdate(sql);
@@ -45,7 +45,7 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 	public boolean Delete(String t) {
 		try {
 			Connection conn = JDBCUtil.getConnection();
-			String sql="DELETE FROM GIANG_VIEN WHERE IDGiangVien = ?";
+			String sql="DELETE FROM GIANG_VIEN WHERE IDGiangvien = ?";
 			PreparedStatement pst=conn.prepareStatement(sql);
 			pst.setString(1, t);
 			pst.executeUpdate();
@@ -64,7 +64,7 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 			try {
 				if(conn == null) {
 				conn = JDBCUtil.getConnection();
-				String sql = "Update GIANG_VIEN set TenGiangVien=?, IDKhoaQL=? where IDGiangVien=? ";
+				String sql = "Update GIANG_VIEN set TenGiangvien=?, IDKhoaql=? where IDGiangvien=? ";
 				PreparedStatement pstm = conn.prepareStatement(sql);
 				pstm.setString(1, t.getTenGV());
 				pstm.setString(2, t.getIdKhoaQL());
@@ -91,9 +91,9 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 			ResultSet rs = st.executeQuery(sql);
 			
 			while(rs.next()) {
-				String id = rs.getString("IDGiangVien");
-				String khoaql = rs.getString("IDKhoaQL");
-				String ten = rs.getString("TenGiangVien");
+				String id = rs.getString("IDGiangvien");
+				String khoaql = rs.getString("IDKhoaql");
+				String ten = rs.getString("TenGiangvien");
 				
 				GiangVien Gvien = new GiangVien(id, khoaql, ten);
 				EQ.add(Gvien);
@@ -114,14 +114,14 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 		try {
 			
 			Connection con = JDBCUtil.getConnection();
-			String sql = "SELECT * FROM GIANG_VIEN WHERE IDGiangVien = '" + id+"'";
+			String sql = "SELECT * FROM GIANG_VIEN WHERE IDGiangvien = '" + id+"'";
 			Statement pst = con.createStatement();
 			System.out.print(sql);
 			ResultSet rs = pst.executeQuery(sql);
 			while(rs.next()) {
-					String ID = rs.getString("IDGiangVien");
-					String khoaql = rs.getString("IDKhoaQL");
-					String ten = rs.getString("TenGiangVien");
+					String ID = rs.getString("IDGiangvien");
+					String khoaql = rs.getString("IDKhoaql");
+					String ten = rs.getString("TenGiangvien");
 					EQ = new GiangVien(ID, khoaql, ten);
 					return EQ;
 				}
@@ -146,9 +146,9 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 			ResultSet rs = st.executeQuery(sql);
 			
 			while(rs.next()) {
-				String id = rs.getString("IDGiangVien");
-				String khoaql = rs.getString("IDKhoaQL");
-				String ten = rs.getString("TenGiangVien");
+				String id = rs.getString("IDGiangvien");
+				String khoaql = rs.getString("IDKhoaql");
+				String ten = rs.getString("TenGiangvien");
 				
 				GiangVien Gvien = new GiangVien(id, khoaql, ten);
 				EQ.add(Gvien);
@@ -169,6 +169,30 @@ public class GiangVienDAO implements DaoInterface<GiangVien>{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
+	
+	public GiangVien SelectByIDM(String id) {
+		GiangVien EQ = null;
+		try {
+			
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM GIANG_VIEN WHERE IDGiangvien in (select IDGiangVien from KhoaQL where IDMon = '" + id+"')";
+			Statement pst = con.createStatement();
+			System.out.print(sql);
+			ResultSet rs = pst.executeQuery(sql);
+			while(rs.next()) {
+					String ID = rs.getString("IDGiangvien");
+					String khoaql = rs.getString("IDKhoaql");
+					String ten = rs.getString("TenGiangvien");
+					EQ = new GiangVien(ID, khoaql, ten);
+					return EQ;
+				}
+			JDBCUtil.closeConnection(con);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

@@ -9,94 +9,65 @@ import Database.JDBCUtil;
 import Model.GiangVien;
 import Model.Phong;
 
-public class PhongDAO implements DaoInterface{
+public class PhongDAO implements DaoInterface<Phong>{
+	public static PhongDAO GetInstance() {
+		return new PhongDAO();
+	}
 
 	@Override
-	public int Insert(Object t) {
+	public int Insert(Phong t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public boolean Delete(Object t) {
+	public boolean Delete(Phong t) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public int Update(Object t) {
+	public int Update(Phong t) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
-	public ArrayList<Phong>SelectAll() {
-		ArrayList<Phong> EQ = new ArrayList<Phong>();
-		try {
-			
-			Connection con = JDBCUtil.getConnection();
-			Statement st = con.createStatement();
-			String sql = "SELECT * FROM PHONG";
-			System.out.print(sql);
-			ResultSet rs = st.executeQuery(sql);
-			
-			while(rs.next()) {
-				String id = rs.getString("IDPhong");
-				String khoaql = rs.getString("IDLoaiPhong");
-				String ten = rs.getString("IDTinhTrang");
-				String t = rs.getString("IDKhu");
-				int te = rs.getInt("SucChua");
-				
-				Phong phong = new Phong(id, khoaql, ten, t, te);
-				EQ.add(phong);
-			}
-			
-			JDBCUtil.closeConnection(con);
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return EQ;
-	}
-
-	@Override
-	public Object SelectByID(String id) {
+	public ArrayList<Phong> SelectAll() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ArrayList<Phong> SelectCondition(String condition) {
-		ArrayList<Phong> EQ = new ArrayList<Phong>();
+	public Phong SelectByID(String id) {
 		try {
 			
 			Connection con = JDBCUtil.getConnection();
-			Statement st = con.createStatement();
-			String sql = "select * from MON_HOC where IDMonHoc in (select IDMonHoc from GIANG_VIEN where IDGiangVien ='" + condition+"'";
+			String sql = "SELECT * FROM Phong_Hoc WHERE IDPhong = '" + id+"'";
+			Statement pst = con.createStatement();
 			System.out.print(sql);
-			ResultSet rs = st.executeQuery(sql);
-			
+			ResultSet rs = pst.executeQuery(sql);
 			while(rs.next()) {
-				String id = rs.getString("IDPhong");
-				String khoaql = rs.getString("IDLoaiPhong");
-				String ten = rs.getString("IDTinhTrang");
-				String i = rs.getString("IDKhu");
+				String id1 = rs.getString("IDPhong");
+				String khoaql = rs.getString("TenPhong");
 				int s = rs.getInt("SucChua");
 				
-				Phong phong = new Phong(id, khoaql, ten, i, s);
-				EQ.add(phong);
-			}
-			
+				Phong phong = new Phong(id1, khoaql, s);
+				return phong;
+				}
 			JDBCUtil.closeConnection(con);
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return EQ;
+		return null;
+	}
+
+	@Override
+	public ArrayList<Phong> SelectCondition(String condition) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

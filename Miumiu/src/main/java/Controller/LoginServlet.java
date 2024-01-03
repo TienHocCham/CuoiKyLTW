@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
 			PreparedStatement pst = con.prepareStatement(sql);
 			pst.setString(1, uname);
 			pst.setString(2, upass);
-			//System.out.print(sql);
+			System.out.print(sql);
 			ResultSet rs = pst.executeQuery();
 			if(rs.next()) {
 				session.setAttribute(uname, rs);;

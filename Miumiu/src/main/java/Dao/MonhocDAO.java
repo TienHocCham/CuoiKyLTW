@@ -1,15 +1,21 @@
 package Dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
 import Database.JDBCUtil;
+import Model.GiangVien;
 import Model.Mon;
 
-public class MonhocDAO implements DaoInterface<Mon>{
+public class MonhocDAO implements DaoInterface<Mon> {
+
+	public static MonhocDAO GetInstance() {
+		return new MonhocDAO();
+	}
 
 	@Override
 	public int Insert(Mon t) {
@@ -25,45 +31,89 @@ public class MonhocDAO implements DaoInterface<Mon>{
 
 	@Override
 	public int Update(Mon t) {
-		// TODO Auto-generated method stub
-		return 0;
+		int rs = 0;
+		Connection conn = null;
+		
+			try {
+				if(conn == null) {
+				conn = JDBCUtil.getConnection();
+				String sql = "Update Mon_Hoc set TenMon=?, IDKhoahoc=?, TinChi=?, IDKhoaql=? where IDMon=? ";
+				PreparedStatement pstm = conn.prepareStatement(sql);
+				pstm.setString(1, t.getTenMonHoc());
+				pstm.setString(2, t.getIdKhoaHoc());
+				pstm.setInt(3, t.getTinchi());
+				pstm.setString(4, t.getIdKhoaQL());
+				pstm.setString(5, t.getIdMonHoc());
+				rs = pstm.executeUpdate();
+				System.out.print(sql);
+}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return rs;
 	}
 
 	@Override
 	public ArrayList<Mon> SelectAll() {
 		ArrayList<Mon> EQ = new ArrayList<Mon>();
 		try {
-			
+
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
 			String sql = "SELECT * FROM MON_HOC";
 			System.out.print(sql);
 			ResultSet rs = st.executeQuery(sql);
-			
-			while(rs.next()) {
-				String id = rs.getString("IDMonHoc");
-				String khoaql = rs.getString("IDKhoaQL");
-				String ten = rs.getString("TenMonHoc");
-				int tinlt = rs.getInt("TinChi");
-				
-				
-				Mon mon = new Mon(id, khoaql, ten, tinlt);
+
+			while (rs.next()) {
+				String id = rs.getString("IDMon");
+				String khoaql = rs.getString("IDKhoaql");
+				String ten = rs.getString("TenMon");
+				int s = rs.getInt("TinChi");
+				String khoahoc = rs.getString("IDKhoahoc");
+
+				GiangVien gv = new GiangVien();
+				gv = GiangVienDAO.GetInstance().SelectByIDM(id);
+				Mon mon = new Mon(id, khoaql, ten, s, gv, khoahoc);
 				EQ.add(mon);
 			}
-			
+
 			JDBCUtil.closeConnection(con);
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return EQ;
 	}
 
 	@Override
 	public Mon SelectByID(String id) {
-		// TODO Auto-generated method stub
+		try {
+
+			Connection con = JDBCUtil.getConnection();
+			String sql = "SELECT * FROM Mon_Hoc WHERE IDMon = '" + id + "'";
+			Statement pst = con.createStatement();
+			System.out.print(sql);
+			ResultSet rs = pst.executeQuery(sql);
+			while (rs.next()) {
+				String id1 = rs.getString("IDMon");
+				String khoaql = rs.getString("IDKhoaql");
+				String ten = rs.getString("TenMon");
+				int s = rs.getInt("TinChi");
+				String khoahoc = rs.getString("IDKhoahoc");
+				GiangVien gv = new GiangVien();
+				gv = GiangVienDAO.GetInstance().SelectByIDM(id1);
+				Mon mon = new Mon(id, khoaql, ten, s, gv, khoahoc);
+				return mon;
+			}
+			JDBCUtil.closeConnection(con);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -71,37 +121,50 @@ public class MonhocDAO implements DaoInterface<Mon>{
 	public ArrayList<Mon> SelectCondition(String condition) {
 		ArrayList<Mon> EQ = new ArrayList<Mon>();
 		try {
-			
+
 			Connection con = JDBCUtil.getConnection();
 			Statement st = con.createStatement();
-			String sql = "select * from MON_HOC where IDMonHoc in (select IDMonHoc from GIANG_VIEN where IDGiangVien ='" + condition+"'";
+			String sql = "select * from MON_HOC where IDMon in (select IDMon from GIANG_VIEN where IDGiangvien ='"
+					+ condition + "'";
 			System.out.print(sql);
 			ResultSet rs = st.executeQuery(sql);
-			
-			while(rs.next()) {
-				String id = rs.getString("IDMonHoc");
-				String khoaql = rs.getString("IDKhoaQL");
-				String ten = rs.getString("TenMonHoc");
+
+			while (rs.next()) {
+				String id = rs.getString("IDMon");
+				String khoaql = rs.getString("IDKhoaql");
+				String ten = rs.getString("TenMon");
 				int s = rs.getInt("TinChi");
-				
-				Mon phong = new Mon(id, khoaql, ten, s);
-				EQ.add(phong);
+				String khoahoc = rs.getString("IDKhoahoc");
+
+				GiangVien gv = new GiangVien();
+				gv = GiangVienDAO.GetInstance().SelectByIDM(id);
+				Mon mon = new Mon(id, khoaql, ten, s, gv, khoahoc);
+				EQ.add(mon);
 			}
-			
+
 			JDBCUtil.closeConnection(con);
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return EQ;
 	}
 
 	@Override
 	public boolean Delete(String t) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			Connection conn = JDBCUtil.getConnection();
+			String sql="DELETE FROM Mon_Hoc WHERE IDMon = ?";
+			PreparedStatement pst=conn.prepareStatement(sql);
+			pst.setString(1, t);
+			pst.executeUpdate();
+			JDBCUtil.closeConnection(conn);;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return true;
 	}
-	
+
 }

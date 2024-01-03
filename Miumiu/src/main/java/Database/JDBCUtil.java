@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class JDBCUtil {
     // JDBC driver class name and URL
     private static final String JDBC_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static final String DATABASE_URL = "jdbc:sqlserver://localhost:1433;databaseName=testdb;encrypt=true;trustServerCertificate=true";
+    private static final String DATABASE_URL = "jdbc:sqlserver://localhost:1433;databaseName=QLTKB;encrypt=true;trustServerCertificate=true";
     
     // Database credentials
     private static final String USER = "sa";
